@@ -32,7 +32,7 @@ source "qemu" "centos79-lvm" {
 }
 
 build {
-  sources = ["centos79-lvm"]
+  sources = ["source.qemu.centos79-lvm"]
 
   # Run updates & install packages
   provisioner "shell" {
