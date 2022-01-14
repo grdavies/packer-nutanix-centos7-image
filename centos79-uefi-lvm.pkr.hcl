@@ -7,7 +7,7 @@ packer {
   }
 }
 
-source "qemu" "centos79-uefi" {
+source "qemu" "centos79-uefi-lvm" {
   iso_url            = "http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2009.iso"
   iso_checksum       = "file:http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/sha256sum.txt"
   output_directory   = "output"
@@ -23,7 +23,7 @@ source "qemu" "centos79-uefi" {
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
-  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64.cfg<enter><wait>"]
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64-lvm.cfg<enter><wait>"]
   headless           = true
   disk_detect_zeroes = "unmap"
   skip_compaction    = false
@@ -33,7 +33,7 @@ source "qemu" "centos79-uefi" {
 }
 
 build {
-  sources = ["source.qemu.centos79-uefi"]
+  sources = ["source.qemu.centos79-uefi-lvm"]
 
   # Run updates & install packages
   provisioner "shell" {
