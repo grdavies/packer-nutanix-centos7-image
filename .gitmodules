@@ -8,9 +8,5 @@
 	branch = main
 [submodule "scripts/linux-sysprep"]
 	path = scripts/linux-sysprep
-	url = https://github.com/DanHam/packer-virt-sysprep
-	branch = main
-[submodule "scripts/centos"]
-	path = scripts/centos
-	url=https://github.com/grdavies/packer-scripts-centos.git
+	url = https://github.com/DanHam/packer-virt-sysprep.git
 	branch = main
