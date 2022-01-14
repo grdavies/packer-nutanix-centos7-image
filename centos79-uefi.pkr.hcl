@@ -98,6 +98,6 @@ build {
                           "scripts/linux-sysprep/sysprep-op-logfiles.sh",
                           "scripts/linux-sysprep/sysprep-op-bash-history.sh",
                          ]
-    expect_disconnect  = true
+    expect_disconnect  = false
   }
 }
