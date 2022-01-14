@@ -33,162 +33,70 @@ source "qemu" "centos79-lvm" {
 
 build {
   sources = ["centos79-lvm"]
-  provisioners = [
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/security_updates.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_kernel_settings.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_set_max_sectors_kb.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_set_disk_timeout.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_set_noop.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_disable_transparent_hugepage.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_iscsi_settings.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/ntnx_grub2_mkconfig.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/packages_yum_tools.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/packages_cloud_init.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "centos/scripts/packages_net_tools.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-common/get_cloud-init_config.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh"
-      expect_disconnect = true
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-firewall-rules.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-machine-id.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-mail-spool.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-common/cleanup-network.sh"
-      expect_disconnect = true
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-common/cleanup-rpm-db.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-ssh-hostkeys.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-tmp-files.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-yum-uuid.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-common/cleanup-disk-space.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-crash-data.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-logfiles.sh"
-      expect_disconnect = false
-    },
-    {
-      type              = "shell"
-      execute_command   = "sudo -E bash '{{ .Path }}'"
-      script            = "scripts/linux-sysprep/sysprep-op-bash-history.sh"
-      expect_disconnect = false
-    },
-  ]
+
+  # Run updates & install packages
+  provisioner "shell" {
+    execute_command    = "sudo -E bash '{{ .Path }}'"
+    scripts            = [
+                          "scripts/centos/security_updates.sh",
+                          "scripts/centos/packages_yum_tools.sh",
+                          "scripts/centos/packages_net_tools.sh",
+                          "scripts/centos/packages_cloud_init.sh",
+                         ]
+    expect_disconnect  = false
+  }
+
+  # Run scripts to apply Nutanix best practices
+  provisioner "shell" {
+    execute_command    = "sudo -E bash '{{ .Path }}'"
+    scripts            = [
+                          "scripts/nutanix/ntnx_kernel_settings.sh",
+                          "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
+                          "scripts/nutanix/ntnx_set_disk_timeout.sh",
+                          "scripts/nutanix/ntnx_iscsi_settings.sh",
+                          "scripts/nutanix/ntnx_set_noop.sh",
+                          "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
+                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
+                         ]
+    expect_disconnect  = false
+  }
+
+  # Run scripts to prepare to seal the OS image
+  provisioner "shell" {
+    execute_command    = "sudo -E bash '{{ .Path }}'"
+    scripts            = [
+                          "scripts/linux-common/cleanup-disk-space.sh",
+                          "scripts/linux-common/cleanup-rpm-db.sh",
+                          "scripts/linux-common/get_cloud-init_config.sh",
+                          "scripts/linux-common/cleanup-network.sh",
+                         ]
+    expect_disconnect  = false
+  }
+
+  provisioner "shell" {
+    execute_command    = "sudo -E bash '{{ .Path }}'"
+    scripts            = [
+                          "scripts/linux-common/cleanup-network.sh",
+                          "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh",
+                         ]
+    expect_disconnect  = true
+  }
+
+  provisioner "shell" {
+    execute_command    = "sudo -E bash '{{ .Path }}'"
+    scripts            = [
+                          "scripts/linux-sysprep/sysprep-op-cloud-init.sh",
+                          "scripts/linux-sysprep/sysprep-op-crash-data.sh",
+                          "scripts/linux-sysprep/sysprep-op-firewall-rules.sh",
+                          "scripts/linux-sysprep/sysprep-op-machine-id.sh",
+                          "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh",
+                          "scripts/linux-sysprep/sysprep-op-package-manager-db.sh",
+                          "scripts/linux-sysprep/sysprep-op-ssh-hostkeys.sh",
+                          "scripts/linux-sysprep/sysprep-op-yum-uuid.sh",
+                          "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
+                          "scripts/linux-sysprep/sysprep-op-logfiles.sh",
+                          "scripts/linux-sysprep/sysprep-op-bash-history.sh",
+                         ]
+    expect_disconnect  = true
+  }
 }

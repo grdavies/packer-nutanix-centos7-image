@@ -51,13 +51,13 @@ build {
   provisioner "shell" {
     execute_command    = "sudo -E bash '{{ .Path }}'"
     scripts            = [
-                          "scripts/centos/ntnx_kernel_settings.sh",
-                          "scripts/centos/ntnx_set_max_sectors_kb.sh",
-                          "scripts/centos/ntnx_set_disk_timeout.sh",
-                          "scripts/centos/ntnx_iscsi_settings.sh",
-                          "scripts/centos/ntnx_set_noop.sh",
-                          "scripts/centos/ntnx_disable_transparent_hugepage.sh",
-                          "scripts/centos/ntnx_grub2_mkconfig.sh",
+                          "scripts/nutanix/ntnx_kernel_settings.sh",
+                          "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
+                          "scripts/nutanix/ntnx_set_disk_timeout.sh",
+                          "scripts/nutanix/ntnx_iscsi_settings.sh",
+                          "scripts/nutanix/ntnx_set_noop.sh",
+                          "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
+                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
                          ]
     expect_disconnect  = false
   }
