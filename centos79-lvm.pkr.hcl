@@ -96,6 +96,7 @@ build {
                           "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
                           "scripts/linux-sysprep/sysprep-op-logfiles.sh",
                           "scripts/linux-sysprep/sysprep-op-bash-history.sh",
+                          "scripts/linux-common/reset-root-password.sh",
                          ]
     expect_disconnect  = false
   }
