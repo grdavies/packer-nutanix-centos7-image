@@ -10,7 +10,7 @@ packer {
 source "qemu" "centos79-uefi" {
   iso_url            = "http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2009.iso"
   iso_checksum       = "file:http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/sha256sum.txt"
-  output_directory   = "output"
+  output_directory   = "centos-7.9-x86_64-uefi"
   shutdown_command   = "sudo -S shutdown -P now"
   disk_size          = "50G"
   format             = "qcow2"
@@ -18,7 +18,7 @@ source "qemu" "centos79-uefi" {
   http_directory     = "http"
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
-  ssh_timeout        = "30m"
+  ssh_timeout        = "60m"
   vm_name            = "centos-7.9-x86_64-uefi.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
