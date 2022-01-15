@@ -30,7 +30,6 @@ jobs:
         working-directory: /home/nutanix/packer/centos7
         run: packer init centos79.pkr.hcl
 
-      
   validate:
     runs-on: self-hosted
     needs: init
@@ -38,3 +37,12 @@ jobs:
       - name: packer validate centos79.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
         run: packer validate centos79.pkr.hcl
+        
+  build:
+    runs-on: self-hosted
+    needs: validate
+    steps:
+      - name: packer build centos79.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer build centos79.pkr.hcl
+
