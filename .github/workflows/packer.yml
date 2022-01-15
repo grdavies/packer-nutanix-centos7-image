@@ -45,4 +45,4 @@ jobs:
       - name: packer build centos79.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
         run: packer build centos79.pkr.hcl
-
+        
