@@ -20,18 +20,21 @@ jobs:
   init:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-        with:
-          GITHUB_WORKSPACE: /home/nutanix/packer/centos7
+      - name: pull latest repo
+        working-directory: /home/nutanix/packer/centos7
+        run: git pull --recurse-submodules
       - name: Checkout submodules
+        working-directory: /home/nutanix/packer/centos7
         run: git submodule update --init --recursive /home/nutanix/packer/centos7
-      - name: packer init /home/nutanix/packer/centos7/centos79.pkr.hcl
-        run: packer init /home/nutanix/packer/centos7/centos79.pkr.hcl
+      - name: packer init centos79.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer init centos79.pkr.hcl
 
       
   validate:
     runs-on: self-hosted
     needs: init
     steps:
-      - name: packer validate /home/nutanix/packer/centos7/centos79.pkr.hcl
-        run: packer validate /home/nutanix/packer/centos7/centos79.pkr.hcl
+      - name: packer validate centos79.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer validate centos79.pkr.hcl
