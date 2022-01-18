@@ -54,12 +54,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ntnx-centos-79-x86_64.qcow2
-          path: /home/nutanix/packer/centos7ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2
+          path: /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2
       - name: Archive ntnx-centos79-x86_64.md5.checksum
         uses: actions/upload-artifact@v2
         with:
           name: ntnx-centos-79-x86_64.md5.checksum
-          path: /home/nutanix/packer/centos7ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum
+          path: /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum
 
   cleanup-build:
     runs-on: self-hosted
