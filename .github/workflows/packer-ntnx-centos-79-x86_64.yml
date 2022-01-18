@@ -60,9 +60,11 @@ jobs:
         with:
           name: code-coverage-report
           path: ntnx-centos-79-x86_64/ntnx-centos79.md5.checksum
+
   cleanup-build:
     runs-on: self-hosted
     needs: capture-build
+    steps:
       - name: remove build artifacts
         working-directory: /home/nutanix/packer/centos7
         run: rm -rf ntnx-centos-79-x86_64
