@@ -97,7 +97,9 @@ build {
     scripts            = [
                           "scripts/linux-sysprep/sysprep-op-cloud-init.sh",
                           "scripts/linux-sysprep/sysprep-op-crash-data.sh",
+                          "scripts/centos/security_firewalld_enable.sh",
                           "scripts/linux-sysprep/sysprep-op-firewall-rules.sh",
+                          "scripts/centos/security_selinux_set_enforcing.sh",
                           "scripts/linux-sysprep/sysprep-op-machine-id.sh",
                           "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh",
                           "scripts/linux-sysprep/sysprep-op-package-manager-db.sh",
