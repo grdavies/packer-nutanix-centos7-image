@@ -51,11 +51,13 @@ jobs:
     needs: build
     steps:
       - name: Archive ntnx-centos-79-x86_64.qcow2
+        working-directory: /home/nutanix/packer/centos7
         uses: actions/upload-artifact@v2
         with:
           name: ntnx-centos-79-x86_64.qcow2
           path: ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2
       - name: Archive ntnx-centos79.md5.checksum
+        working-directory: /home/nutanix/packer/centos7
         uses: actions/upload-artifact@v2
         with:
           name: code-coverage-report
