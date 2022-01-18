@@ -7,11 +7,11 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   #push:
     #branches: [ main ]
-    
+
   #schedule:
     # * is a special character in YAML so you have to quote this string
     #- cron:  '30 1 * * *'
-    
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -26,23 +26,43 @@ jobs:
       - name: Checkout submodules
         working-directory: /home/nutanix/packer/centos7
         run: git submodule update --init --recursive /home/nutanix/packer/centos7
-      - name: packer init centos79.pkr.hcl
+      - name: packer init ntnx-centos-79-x86_64.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
-        run: packer init centos79.pkr.hcl
+        run: packer init ntnx-centos-79-x86_64.pkr.hcl
 
   validate:
     runs-on: self-hosted
     needs: init
     steps:
-      - name: packer validate centos79.pkr.hcl
+      - name: packer validate ntnx-centos-79-x86_64.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
-        run: packer validate centos79.pkr.hcl
-        
+        run: packer validate ntnx-centos-79-x86_64.pkr.hcl
+
   build:
     runs-on: self-hosted
     needs: validate
     steps:
-      - name: packer build centos79.pkr.hcl
+      - name: packer build ntnx-centos-79-x86_64.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
-        run: packer build centos79.pkr.hcl
-        
+        run: packer build ntnx-centos-79-x86_64.pkr.hcl
+
+  capture-build:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Archive ntnx-centos-79-x86_64.qcow2
+        uses: actions/upload-artifact@v2
+        with:
+          name: ntnx-centos-79-x86_64.qcow2
+          path: ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2
+      - name: Archive ntnx-centos79.md5.checksum
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: ntnx-centos-79-x86_64/ntnx-centos79.md5.checksum
+  cleanup-build:
+    runs-on: self-hosted
+    needs: capture-build
+      - name: remove build artifacts
+        working-directory: /home/nutanix/packer/centos7
+        run: rm -rf ntnx-centos-79-x86_64
