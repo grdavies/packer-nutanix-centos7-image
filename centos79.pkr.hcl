@@ -7,10 +7,10 @@ packer {
   }
 }
 
-source "qemu" "centos79" {
+source "qemu" "centos-79-x86_64" {
   iso_url            = "http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2009.iso"
   iso_checksum       = "file:http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/sha256sum.txt"
-  output_directory   = "centos-7.9-x86_64"
+  output_directory   = "centos-79-x86_64"
   shutdown_command   = "sudo -S shutdown -P now"
   disk_size          = "50G"
   format             = "qcow2"
@@ -19,7 +19,7 @@ source "qemu" "centos79" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "centos-7.9-x86_64.qcow2"
+  vm_name            = "centos-79-x86_64.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
@@ -32,7 +32,16 @@ source "qemu" "centos79" {
 }
 
 build {
-  sources = ["source.qemu.centos79"]
+  sources = ["source.qemu.centos-79-x86_64"]
+
+  # Post Processors
+  post-processors {
+    post-processor "checksum" {                 # checksum artifice.txt
+      checksum_types      = [ "md5" ] # checksum the artifact
+      keep_input_artifact = true                # keep the artifact
+      output              = "${source.name}/${source.name}_{{.ChecksumType}}.checksum"
+    }
+  }
 
   # Run updates & install packages
   provisioner "shell" {
