@@ -62,10 +62,11 @@ jobs:
       #   run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
       # - name: Upload md5 checksum for generated image
       #   run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
-      - run: |
-        jfrog rt ping
-        jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
-        jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
+      - name: Upload image to Artifactory
+        run: |
+          jfrog rt ping
+          jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
+          jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
 
   capture-build:
     runs-on: self-hosted
