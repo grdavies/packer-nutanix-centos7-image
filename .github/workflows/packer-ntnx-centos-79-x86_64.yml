@@ -78,7 +78,7 @@ jobs:
 
   cleanup-build:
     runs-on: self-hosted
-    needs: capture-build
+    needs: [upload-to-artifactory, capture-build]
     steps:
       - name: remove build artifacts
         working-directory: /home/nutanix/packer/centos7
