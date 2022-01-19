@@ -50,6 +50,21 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
+      - name: Ping Artifactory Server
+        uses: jfrog/setup-jfrog-cli@v2
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_HPOC_PHX_POC258 }}
+        run: jfrog rt ping
+      - name: Upload generated qcow2 image
+        uses: jfrog/setup-jfrog-cli@v2
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_HPOC_PHX_POC258 }}
+        run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
+      - name: Upload md5 checksum for generated image
+        uses: jfrog/setup-jfrog-cli@v2
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_HPOC_PHX_POC258 }}
+        run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
       - name: Archive ntnx-centos-79-x86_64.qcow2
         uses: actions/upload-artifact@v2
         with:
