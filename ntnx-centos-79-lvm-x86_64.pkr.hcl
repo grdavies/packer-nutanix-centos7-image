@@ -12,7 +12,7 @@ source "qemu" "centos79-lvm" {
   iso_checksum       = "file:http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/sha256sum.txt"
   output_directory   = "centos-7.9-x86_64-lvm"
   shutdown_command   = "sudo -S shutdown -P now"
-  disk_size          = "50G"
+  disk_size          = "100G"
   format             = "qcow2"
   accelerator        = "kvm"
   http_directory     = "http"
