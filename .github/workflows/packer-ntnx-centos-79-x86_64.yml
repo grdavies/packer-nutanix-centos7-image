@@ -51,22 +51,15 @@ jobs:
     needs: build
     steps:
       - name: Setup JFrog CLI
-        # You may pin to the exact commit or the version.
-        # uses: jfrog/setup-jfrog-cli@dc5aa4f5d7180e53f0b65dfdc94155fae12a59e6
         uses: jfrog/setup-jfrog-cli@v2
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_HPOC_PHX_POC258 }}
-      # - name: Ping Artifactory Server
-      #   run: jfrog rt ping
-      # - name: Upload generated qcow2 image
-      #   run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
-      # - name: Upload md5 checksum for generated image
-      #   run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
-      - name: Upload image to Artifactory
-        run: |
-          jfrog rt ping
-          jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
-          jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx --build-name=centos7 --build-number=${{ github.run_id }}
+      - name: Ping Artifactory Serrver
+        run: jfrog rt ping
+      - name: Upload qcow2 disk image
+        run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx
+      - name: Upload qcow2 disk image checksum
+        run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx
 
   capture-build:
     runs-on: self-hosted
