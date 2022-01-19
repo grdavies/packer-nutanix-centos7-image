@@ -66,7 +66,6 @@ build {
                           "scripts/nutanix/ntnx_iscsi_settings.sh",
                           "scripts/nutanix/ntnx_set_noop.sh",
                           "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
-                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
                          ]
     expect_disconnect  = false
   }
@@ -95,9 +94,9 @@ build {
   provisioner "shell" {
     execute_command    = "sudo -E bash '{{ .Path }}'"
     scripts            = [
+                          "scripts/centos/security_hardening_sshd.sh",
                           "scripts/linux-sysprep/sysprep-op-cloud-init.sh",
                           "scripts/linux-sysprep/sysprep-op-crash-data.sh",
-                          "scripts/centos/security_firewalld_enable.sh",
                           "scripts/linux-sysprep/sysprep-op-firewall-rules.sh",
                           "scripts/centos/security_selinux_set_enforcing.sh",
                           "scripts/linux-sysprep/sysprep-op-machine-id.sh",
