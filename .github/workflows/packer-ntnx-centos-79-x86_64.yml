@@ -25,7 +25,7 @@ jobs:
         run: git pull --recurse-submodules
       - name: Checkout submodules
         working-directory: /home/nutanix/packer/centos7
-        run: git submodule update --init --recursive /home/nutanix/packer/centos7
+        run: git submodule update --init --recursive
       - name: packer init ntnx-centos-79-x86_64.pkr.hcl
         working-directory: /home/nutanix/packer/centos7
         run: packer init ntnx-centos-79-x86_64.pkr.hcl
